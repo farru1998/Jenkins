@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Image'){
             steps{
-            
+                echo "hLLO"
             }
         }
     }
