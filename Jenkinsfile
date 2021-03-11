@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+    registry = "docker_hub_account/repository_name"
+    registryCredential = 'docker-credential'
+    }
     agent any
     stages {
         stage('myStage'){
@@ -13,14 +17,9 @@ pipeline {
         }
         stage('Image'){
             steps{
-                 checkout scm
-                  docker.withRegistry('https://registry.hub.docker.com/', 'docker-credential') {
-
-        def customImage = docker.build("jenkin-test:${env.BUILD_ID}")
-
-        /* Push the container to the custom Registry */
-        customImage.push()
-    }
+                script {
+                    docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
     }
