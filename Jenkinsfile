@@ -1,6 +1,6 @@
 pipeline {
     environment {
-    registry = "mfarhan1998/jenkins_latest"
+    registry = "https://registry.hub.docker.com"
     registryCredential = 'docker-credential'
     }
     agent any
@@ -18,8 +18,8 @@ pipeline {
         stage('Image'){
             steps{
                 script {
-                    docker.build registry + ":$BUILD_NUMBER"
-                }
+                   docker.build registry + ":$BUILD_NUMBER"
+               }
             }
         }
     }
