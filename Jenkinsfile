@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Image'){
             steps{
-                  docker.withRegistry('https://hub.docker.com/', 'docker-credential') {
+                  docker.withRegistry('https://registry.hub.docker.com/', 'docker-credential') {
 
         def customImage = docker.build("jenkin-test:${env.BUILD_ID}")
 
