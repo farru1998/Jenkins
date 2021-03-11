@@ -13,7 +13,13 @@ pipeline {
         }
         stage('Image'){
             steps{
-                echo "hLLO"
+                  docker.withRegistry('https://hub.docker.com/', 'docker-credential') {
+
+        def customImage = docker.build("jenkin-test:${env.BUILD_ID}")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
+    }
             }
         }
     }
