@@ -1,6 +1,6 @@
 pipeline {
     environment {
-    registry = "https://hub.docker.com"
+    registry = "mfarhan1998/jenkins_test"
     registryCredential = 'docker-credential'
     }
     agent any
