@@ -1,8 +1,5 @@
 pipeline {
-    environment {
-    registry = "mfarhan1998/jenkins_test"
-    registryCredential = 'docker-credential'
-    }
+    def app
     agent any
     stages {
         stage('myStage'){
@@ -17,9 +14,11 @@ pipeline {
         }
         stage('Image'){
             steps{
-                script {
-                   docker.build registry + ":$BUILD_NUMBER"
-               }
+                app = docker.build("mfarhan/test")
+                docker.withRegistry('https://registry.hub.docker.com', 'git') {                   
+                    app.push("${env.BUILD_NUMBER}")            
+                    app.push("latest")        
+              }    
             }
         }
     }
