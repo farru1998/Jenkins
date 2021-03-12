@@ -1,23 +1,30 @@
 pipeline {
-    def app
+    environment{
+        registry = "mfarhan1998/jenkins_test"
+        registryCredentials = 'docker-credential'
+        dockerImage = ''
+    }
     agent any
     stages {
-        stage('myStage'){
+        stage('Build'){
             steps {
-                sh 'ls -la' 
-            }
-        }
-        stage('Build') {
-            steps { 
                 sh 'ls' 
             }
         }
-        stage('Image'){
+        stage('Building Image') {
+            steps { 
+                script{
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Pushing Image'){
             steps{
-                app = docker.build("mfarhan/test")
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-credential') {                   
-                    app.push("${env.BUILD_NUMBER}")            
-                    app.push("latest")        
+                script{
+                    docker.withRegistry('', registryCredential){
+                        dockerImage.push()
+                    }
+                }     
               }    
             }
         }
